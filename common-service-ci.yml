@@ -1,0 +1,24 @@
+# JWT
+jwt:
+  secret: myketerSecret
+  expiration: 7200
+# Spring Cloud 相关配置
+spring:
+  cloud:
+    consul:
+      host: 192.168.1.221    # consul 启动地址
+      port: 8500         # consul 启动端口
+      discovery:
+        register: true
+        hostname: ${config.hostname}
+        instanceId: ${spring.application.name}-${config.hostname}:${server.port}-${config.appid}
+        tags:  ${spring.profiles.active}
+    config: #配置中心
+      enabled: ${config.enabled}
+      uri: ${config.uri}
+      profile: ${spring.profiles.active}
+  zipkin:
+    base-url: http://192.168.1.221:9411
+  sleuth:
+    sampler:
+      percentage: 1.0

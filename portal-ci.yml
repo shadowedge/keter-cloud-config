@@ -1,0 +1,56 @@
+# JWT
+jwt:
+  header: XAuthorization
+  tokenHead: "Bearer "
+
+spring:
+  cloud:
+    consul:
+      host: 192.168.1.221    # consul 启动地址
+      port: 8500         # consul 启动端口
+      discovery:
+        register: true
+        hostname: ${config.hostname}
+        instanceId: ${spring.application.name}-${config.hostname}:${server.port}-${config.appid}
+        server-list-query-tags:
+          keter-common-service: dev
+    config:
+      enabled: ${config.enabled}
+      uri: ${config.uri}
+      profile:  ${spring.profiles.active}
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.1.221:9411/
+keter-common-service:
+  ribbon:
+    ConnectTimeout: 1 #不生效
+    ReadTimeout: 1 #不生效
+    OkToRetryOnAllOperations: false # 是否重试：未生效！需要配合Spring配置使用
+    MaxAutoRetries: 0 #生效：对第一次请求的服务的重试次数
+    MaxAutoRetriesNextServer: 0 #生效：要重试的下一个服务的最大数量（不包括第一个服务）
+    eager-load:
+      enabled: true
+keter-haha-service:
+  ribbon:
+    ConnectTimeout: 1 #不生效？
+    ReadTimeout: 1 #不生效？
+    OkToRetryOnAllOperations: false # 是否重试
+    MaxAutoRetries: 1 #对第一次请求的服务的重试次数
+    MaxAutoRetriesNextServer: 1 #要重试的下一个服务的最大数量（不包括第一个服务）
+    eager-load:
+      enabled: true
+hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 50
+      maxQueueSize: 500
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1 #不生效？

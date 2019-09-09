@@ -1,0 +1,4 @@
+server:
+  port: 0
+# 测试本地不存在的配置：无config服务时该客户端启动会报错
+haha: hehe
