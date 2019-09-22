@@ -13,7 +13,7 @@ spring:
         hostname: ${config.hostname}
         instanceId: ${spring.application.name}-${config.hostname}:${server.port}-${config.appid}
         server-list-query-tags:
-          common-service: ci
+          keter-common-service: dev
     config:
       enabled: ${config.enabled}
       uri: ${config.uri}
